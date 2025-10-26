@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CADR — ustawienia profilu użytkownika." />
+  <meta name="theme-color" content="#0ea5e9" />
+  <title>CADR — Ustawienia profilu</title>
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --bg-header: rgba(255, 255, 255, 0.7);
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --border: rgba(0, 0, 0, 0.1);
+      --cyan: #0ea5e9;
+      --cyan-hover: #38bdf8;
+      --button-text: #fff;
+      --dot-color: rgba(0, 0, 0, 0.08);
+      --glow1: rgba(56,189,248,0.25);
+      --glow2: rgba(99,102,241,0.25);
+      --card-bg: rgba(255,255,255,0.6);
+    }
+
+    html.dark {
+      --bg: #0f172a;
+      --bg-header: rgba(15, 23, 42, 0.8);
+      --text: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --border: rgba(255, 255, 255, 0.1);
+      --cyan: #38bdf8;
+      --cyan-hover: #7dd3fc;
+      --button-text: #0f172a;
+      --dot-color: rgba(255, 255, 255, 0.08);
+      --glow1: rgba(56,189,248,0.25);
+      --glow2: rgba(99,102,241,0.25);
+      --card-bg: rgba(30,41,59,0.6);
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(60rem 60rem at 80% -10%, var(--glow1), transparent 60%),
+        radial-gradient(40rem 40rem at -10% 20%, var(--glow2), transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+    }
+
+    header nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    header nav a:hover {
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--button-text);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 16px var(--cyan-hover);
+    }
+
+    .btn-primary:hover {
+      background: var(--cyan-hover);
+    }
+
+    .btn-small {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-small:hover {
+      background: var(--cyan);
+      color: var(--button-text);
+      border-color: var(--cyan-hover);
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 0 3px var(--glow1);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+  </style>
+
+  <script>
+    // Motyw
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) document.documentElement.classList.add('dark');
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.theme = isDark ? 'dark' : 'light';
+    }
+
+    // Symulacja aktualizacji danych
+    function saveChanges(section) {
+      alert(`Zapisano zmiany w sekcji: ${section}`);
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Nawigacja -->
+  <header>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" style="fill: var(--cyan);">
+        <path d="M12 2L2 7l10 5l10-5zm0 7L2 4v13l10 5zm0 0l10-5v13l-10 5z"/>
+      </svg>
+      <span style="font-weight:600;">CADR</span>
+    </div>
+
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#projects">Projekty</a>
+      <a href="#docs">Dokumentacja</a>
+      <a href="#help">Pomoc</a>
+    </nav>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button onclick="toggleTheme()" class="btn-small">🌓</button>
+      <a href="login.html" class="btn-small">Wyloguj</a>
+    </div>
+  </header>
+
+  <!-- Sekcja ustawień -->
+  <div class="container">
+    <!-- Sekcja 1: Imię i nazwisko -->
+    <div class="section">
+      <h2>Zmiana imienia i nazwiska</h2>
+      <div class="form-group">
+        <label for="firstName">Imię</label>
+        <input type="text" id="firstName" placeholder="Jan">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Nazwisko</label>
+        <input type="text" id="lastName" placeholder="Kowalski">
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveChanges('Dane osobowe')">Zapisz zmiany</button>
+      </div>
+    </div>
+
+    <!-- Sekcja 2: Zmiana e-maila -->
+    <div class="section">
+      <h2>Zmiana adresu e-mail</h2>
+      <div class="form-group">
+        <label for="email">Nowy adres e-mail</label>
+        <input type="email" id="email" placeholder="nowy@adres.pl">
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveChanges('E-mail')">Zapisz zmiany</button>
+      </div>
+    </div>
+
+    <!-- Sekcja 3: Zmiana hasła -->
+    <div class="section">
+      <h2>Zmiana hasła</h2>
+      <div class="form-group">
+        <label for="currentPassword">Obecne hasło</label>
+        <input type="password" id="currentPassword" placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label for="newPassword">Nowe hasło</label>
+        <input type="password" id="newPassword" placeholder="••••••••">
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveChanges('Hasło')">Zmień hasło</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
